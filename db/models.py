@@ -3,8 +3,14 @@
 from packages import peewee as pw
 from packages.playhouse import fields
 from datetime import datetime
+import settings
 
-db = pw.SqliteDatabase('db/blog.db3')
+# db = pw.SqliteDatabase('db/blog.db3')
+db = pw.MySQLDatabase(settings.MYSQL_DBNAME,
+                      user=settings.MYSQL_USER,
+                      host=settings.MYSQL_HOST,
+                      password=settings.MYSQL_PASSWD,
+                      port=settings.MYSQL_PORT)
 
 
 class BaseModel(pw.Model):
@@ -65,7 +71,6 @@ BlogTagThrough = Tag.blogs.get_through_model()
 
 __db_connected = False
 
-# if not __db_connected:
-if 0:
+if not __db_connected:
     db.connect()
     db.create_tables([Blog, Tag, BlogTagThrough], safe=True)

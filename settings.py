@@ -11,6 +11,21 @@ DEBUG = True
 
 SECRET_KEY = '1f906fb1638ebdb01ade5f1cb55e928f8fe09fcc'
 
+# db config
+try:
+    import sae.const
+    MYSQL_DBNAME = sae.const.MYSQL_DB      # 数据库名
+    MYSQL_USER = sae.const.MYSQL_USER    # 用户名
+    MYSQL_PASSWD = sae.const.MYSQL_PASS    # 密码
+    MYSQL_HOST = sae.const.MYSQL_HOST    # 主库域名（可读写）
+    MYSQL_PORT = sae.const.MYSQL_PORT    # 端口，类型为<type 'str'>，请根据框架要求自行转换为int
+except ImportError:
+    MYSQL_DBNAME = ''
+    MYSQL_USER = ''
+    MYSQL_PASSWD = ''
+    MYSQL_HOST = ''
+    MYSQL_PORT = 3306
+
 try:
     from local_settings import *
 except:
