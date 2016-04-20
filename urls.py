@@ -3,9 +3,14 @@
 __all__ = ['url_mapping']
 
 from common.importlib import import_module
+import tornado
+import settings
 
 
-url_mapping = []
+url_mapping = [
+    (r"/(favicon\.ico)", tornado.web.StaticFileHandler,
+     {"path": "%s/static" % settings.SITE_ROOT}),
+]
 
 _views = (
     'index.handlers',
