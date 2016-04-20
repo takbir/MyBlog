@@ -65,6 +65,7 @@ BlogTagThrough = Tag.blogs.get_through_model()
 
 __db_connected = False
 
-if not __db_connected:
+# if not __db_connected:
+if 0:
     db.connect()
     db.create_tables([Blog, Tag, BlogTagThrough], safe=True)
