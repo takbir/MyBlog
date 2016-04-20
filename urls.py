@@ -14,6 +14,7 @@ url_mapping = [
 
 _views = (
     'index.handlers',
+    'manage.handlers',
 )
 
 
