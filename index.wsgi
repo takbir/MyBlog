@@ -1,13 +1,8 @@
 import tornado.wsgi
 import sae
+import urls
+import settings
 
-
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world! - Tornado")
-
-app = tornado.wsgi.WSGIApplication([
-    (r"/", MainHandler),
-])
+app = tornado.wsgi.WSGIApplication(urls.url_mapping, **settings.settings)
 
 application = sae.create_wsgi_app(app)
