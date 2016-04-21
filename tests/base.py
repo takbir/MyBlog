@@ -12,5 +12,5 @@ class BaseHTTPTest(AsyncHTTPTestCase):
     def set_data(self, k, v):
         self._tmp_data[k] = v
 
-    def get_data(self, k):
-        return self._tmp_data.get(k)
+    def get_data(self, k, default=None):
+        return self._tmp_data.get(k) or default

@@ -29,6 +29,19 @@ class BlogHandler(BaseHandler):
         blog = manage_util.create_blog(**params)
         return blog.to_dict()
 
+    @decorators.render_json
+    def put(self):
+        """
+        修改blog
+        """
+        params = self.get_raw_params()
+        blog_id = params.get('id')
+        struct = params.get('struct')
+        blog = manage_util.get_one_blog(blog_id)
+        if blog:
+            manage_util.update_blog(blog, **struct)
+        return {}
+
 
 url_list = [
     url(r'/manage/blog/?', BlogHandler),

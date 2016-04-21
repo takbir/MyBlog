@@ -61,3 +61,7 @@ target/
 local_settings.py
 #Ipython Notebook
 .ipynb_checkpoints
+
+# WingIDE
+*.wpr
+*.wpu

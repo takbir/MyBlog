@@ -54,3 +54,51 @@ def get_blog_pagination(page_num=1, item_per_page=10):
     page_num = int(page_num)
     item_per_page = int(item_per_page)
     return Blog.select().order_by(-Blog.updated).paginate(page_num, item_per_page)
+
+
+def update_obj(obj, **attrs):
+    """
+    更新对象接口
+    """
+    cls = type(obj)
+    operation = {}
+    for k, v in attrs.iteritems():
+        if hasattr(obj, k):
+            operation[k] = v
+    query = cls.update(**operation).where(cls.id == obj.id)
+    return query.execute()
+
+
+def update_blog(blog, **attrs):
+    """
+    更新blog接口
+    """
+    return update_obj(blog, **attrs)
+
+
+def update_tag(tag, **attrs):
+    """
+    更新Tag接口
+    """
+    return update_obj(tag, **attrs)
+
+
+def get_one_record(cls, obj_id):
+    """
+    获取单个记录
+    """
+    return cls.get(cls.id == obj_id)
+
+
+def get_one_blog(blog_id):
+    """
+    获取单个Blog
+    """
+    return get_one_record(Blog, blog_id)
+
+
+def get_one_tag(tag_id):
+    """
+    获取单个Tag
+    """
+    return get_one_record(Tag, tag_id)
