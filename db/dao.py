@@ -51,4 +51,6 @@ def get_blog_pagination(page_num=1, item_per_page=10):
     """
     以分页的方式获取Blog列表
     """
+    page_num = int(page_num)
+    item_per_page = int(item_per_page)
     return Blog.select().order_by(-Blog.updated).paginate(page_num, item_per_page)

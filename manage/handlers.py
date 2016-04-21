@@ -14,8 +14,8 @@ class BlogHandler(BaseHandler):
         获取所有Blog列表, 支持分页
         """
         params = self.get_raw_params()
-        page = params.get('page')
-        item_per_page = params.get('item_per_page')
+        page = params.get('page', 1)
+        item_per_page = params.get('item_per_page', 10)
         queryset = manage_util.get_blog_pagination(page, item_per_page)
         blogs_dict = [blog.to_dict() for blog in queryset]
         return {'blogs': blogs_dict}

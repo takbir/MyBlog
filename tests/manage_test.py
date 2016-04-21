@@ -31,6 +31,10 @@ class BlogHandlerTest(BaseHTTPTest):
         struct = json.loads(response.body)
         self.set_data('blog_id', struct.get('id'))
 
+    def test_get_blog_list(self):
+        response = self.fetch('/manage/blog/', method='GET')
+        self.assertRegexpMatches(response.body, '\[.*\]')
+
     def tearDown(self):
         super(BlogHandlerTest, self).tearDown()
         blog_id = self.get_data('blog_id')

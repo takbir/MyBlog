@@ -7,4 +7,6 @@ import json
 class BaseHandler(RequestHandler):
 
     def get_raw_params(self):
-        return json.loads(self.request.body)
+        if self.request.body:
+            return json.loads(self.request.body)
+        return {}
