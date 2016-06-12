@@ -1,6 +1,7 @@
 # encoding=utf8
 
-from db.models import Blog, Tag
+from db.models import Blog, Tag, DBSession
+from sqlalchemy import update
 
 
 def create_obj(cls=None, **attrs):
@@ -13,7 +14,12 @@ def create_obj(cls=None, **attrs):
     for k, v in attrs.iteritems():
         if hasattr(obj, k):  # 如果是对象的约定属性才给予赋值
             obj.__setattr__(k, v)
-    obj.save()
+    try:
+        DBSession.add(obj)
+        DBSession.commit()
+    except Exception as exc:
+        DBSession.rollback()
+        raise exc
     return obj
 
 
@@ -44,7 +50,7 @@ def get_all_tags():
     """
     获取所有标签
     """
-    return Tag.select().order_by(Tag.name)
+    return DBSession.query(Tag).order_by('name').all()
 
 
 def get_blog_pagination(page_num=1, item_per_page=10):
@@ -53,7 +59,8 @@ def get_blog_pagination(page_num=1, item_per_page=10):
     """
     page_num = int(page_num)
     item_per_page = int(item_per_page)
-    return Blog.select().order_by(-Blog.updated).paginate(page_num, item_per_page)
+    return DBSession.query(Blog).order_by(-Blog.updated).slice(
+        item_per_page, item_per_page * page_num)
 
 
 def update_obj(obj, **attrs):
@@ -65,8 +72,8 @@ def update_obj(obj, **attrs):
     for k, v in attrs.iteritems():
         if hasattr(obj, k):
             operation[k] = v
-    query = cls.update(**operation).where(cls.id == obj.id)
-    return query.execute()
+    query = update(cls).where(cls.id == obj.id).values(**operation)
+    query.execute()
 
 
 def update_blog(blog, **attrs):
@@ -87,7 +94,7 @@ def get_one_record(cls, obj_id):
     """
     获取单个记录
     """
-    return cls.get(cls.id == obj_id)
+    return DBSession.query(cls).get(obj_id)
 
 
 def get_one_blog(blog_id):

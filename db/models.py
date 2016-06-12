@@ -1,22 +1,32 @@
 # encoding=utf8
 
-from packages import peewee as pw
-from packages.playhouse import fields
+from sqlalchemy import (String,
+                        Column,
+                        Integer,
+                        Text,
+                        DateTime,
+                        ForeignKey,
+                        create_engine)
+from sqlalchemy.orm import (sessionmaker,
+                            relationship,
+                            scoped_session)
+from sqlalchemy.schema import Table
+from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-import settings
+from db import make_db_connect_url
 
-# db = pw.SqliteDatabase('db/blog.db3')
-db = pw.MySQLDatabase(settings.MYSQL_DBNAME,
-                      user=settings.MYSQL_USER,
-                      host=settings.MYSQL_HOST,
-                      password=settings.MYSQL_PASSWD,
-                      port=settings.MYSQL_PORT)
+BaseORM = declarative_base()
+
+connect_url = make_db_connect_url()
+
+engine = create_engine(connect_url)
+
+BaseORM.metadata.bind = engine
+
+DBSession = scoped_session(sessionmaker(bind=engine))
 
 
-class BaseModel(pw.Model):
-    class Meta:
-        database = db
-
+class BaseModel(object):
     def to_dict(self):
         """
         将对象结构转化成字典
@@ -24,15 +34,26 @@ class BaseModel(pw.Model):
         return {}
 
 
-class Blog(BaseModel):
+blog_tag_table = Table(
+    'blog_tag', BaseORM.metadata,
+    Column('blog_id', Integer, ForeignKey('blog.id')),
+    Column('tag_id', Integer, ForeignKey('tag.id'))
+)
+
+
+class Blog(BaseORM, BaseModel):
     """
     Blog Class
     """
-    id = pw.PrimaryKeyField()
-    title = pw.CharField(max_length=255)
-    content = pw.TextField()
-    created = pw.DateTimeField(default=datetime.now)
-    updated = pw.DateTimeField(default=datetime.now)
+    __tablename__ = u'blog'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200), nullable=False)
+    content = Column(Text, nullable=False)
+    created = Column(DateTime, default=datetime.now)
+    updated = Column(DateTime, default=datetime.now,
+                     onupdate=datetime.now)
+    tags = relationship('Tag', secondary=blog_tag_table)
 
     def to_dict(self):
         return {
@@ -51,13 +72,16 @@ class Blog(BaseModel):
         return [t.to_dict() for t in self.tags]
 
 
-class Tag(BaseModel):
+class Tag(BaseORM, BaseModel):
     """
     Tag Class
     """
-    id = pw.PrimaryKeyField()
-    name = pw.CharField(max_length=100)
-    blogs = fields.ManyToManyField(Blog, related_name='tags')
+    __tablename__ = u'tag'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=True)
+    created = Column(DateTime, default=datetime.now)
+    updated = Column(DateTime, default=datetime.now)
 
     def to_dict(self):
         return {
@@ -66,11 +90,7 @@ class Tag(BaseModel):
         }
 
 
-BlogTagThrough = Tag.blogs.get_through_model()
+__db_connected__ = False
 
-
-__db_connected = False
-
-if not __db_connected:
-    db.connect()
-    db.create_tables([Blog, Tag, BlogTagThrough], safe=True)
+if not __db_connected__:
+    BaseORM.metadata.create_all()

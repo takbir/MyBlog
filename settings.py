@@ -20,10 +20,10 @@ try:
     MYSQL_HOST = sae.const.MYSQL_HOST    # 主库域名（可读写）
     MYSQL_PORT = int(sae.const.MYSQL_PORT)    # 端口，类型为<type 'str'>，请根据框架要求自行转换为int
 except ImportError:
-    MYSQL_DBNAME = ''
-    MYSQL_USER = ''
-    MYSQL_PASSWD = ''
-    MYSQL_HOST = ''
+    MYSQL_DBNAME = 'paradas'
+    MYSQL_USER = 'root'
+    MYSQL_PASSWD = '123qwe'
+    MYSQL_HOST = 'localhost'
     MYSQL_PORT = 3306
 
 try:

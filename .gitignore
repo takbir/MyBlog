@@ -65,3 +65,6 @@ local_settings.py
 # WingIDE
 *.wpr
 *.wpu
+
+# virtualenv
+.venv

@@ -4,14 +4,16 @@ import os
 import sys
 if __name__ == '__main__':
     sys.path.insert(0, os.path.abspath(os.curdir))
+    sys.path.insert(0, os.path.abspath(os.path.join(os.curdir, 'packages')))
 
 import json
 from tornado.test.util import unittest
 from tornado.web import Application
 from tests.base import BaseHTTPTest
 from manage.handlers import url_list
-from db.models import Blog
+from db.models import Blog, DBSession
 from manage import util as manage_util
+from sqlalchemy import delete
 
 
 class BlogHandlerTest(BaseHTTPTest):
@@ -57,7 +59,7 @@ class BlogHandlerTest(BaseHTTPTest):
     def tearDown(self):
         super(BlogHandlerTest, self).tearDown()
         blog_id = self.get_data('blog_id')
-        query = Blog.delete().where(Blog.id == blog_id)
+        query = delete(Blog).where(Blog.id == blog_id)
         query.execute()
 
 
