@@ -1,5 +1,6 @@
-import tornado.wsgi
 import sae
+sae.add_vendor_dir('packages')
+import tornado.wsgi
 from sae.ext.shell import ShellMiddleware
 import urls
 import settings
