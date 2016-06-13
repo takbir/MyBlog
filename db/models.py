@@ -83,6 +83,9 @@ class Tag(BaseORM, BaseModel):
     created = Column(DateTime, default=datetime.now)
     updated = Column(DateTime, default=datetime.now)
 
+    def __repr__(self):
+        return (u'<Tag {}>'.format(self.name)).encode('utf8')
+
     def to_dict(self):
         return {
             'id': self.id,

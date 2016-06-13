@@ -11,7 +11,7 @@ from tornado.test.util import unittest
 from tornado.web import Application
 from tests.base import BaseHTTPTest
 from manage.handlers import url_list
-from db.models import Blog, DBSession
+from db.models import Blog
 from manage import util as manage_util
 from sqlalchemy import delete
 
