@@ -5,8 +5,8 @@ create table `blog` (
   `id` int not null auto_increment,
   `title` varchar(200) not null comment '标题',
   `content` text not null comment '内容',
-  `created` timestamp not null default current_timestamp comment '创建时间',
-  `updated` timestamp not null default current_timestamp on update current_timestamp comment '更新时间',
+  `created` timestamp default current_timestamp comment '创建时间',
+  `updated` timestamp default current_timestamp on update current_timestamp comment '更新时间',
   primary key (`id`),
   key `ix_updated` (`updated`)
 ) engine=innodb default charset=utf8 comment='Blog主体表';
@@ -15,8 +15,8 @@ drop table if exists `tag`;
 create table `tag` (
   `id` int not null auto_increment,
   `name` varchar(200) not null comment '名称',
-  `created` timestamp not null default current_timestamp comment '创建时间',
-  `updated` timestamp not null default current_timestamp on update current_timestamp comment '更新时间',
+  `created` timestamp default current_timestamp comment '创建时间',
+  `updated` timestamp default current_timestamp on update current_timestamp comment '更新时间',
   primary key (`id`),
   key `ix_updated` (`updated`)
 ) engine=innodb default charset=utf8 comment='Tag主体表';

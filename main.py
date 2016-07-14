@@ -5,9 +5,15 @@ import tornado.web
 import tornado.escape
 import settings
 import sys
+import os
+
+packages_path = os.path.join(settings.SITE_ROOT, 'packages')
+sys.path.insert(0, packages_path)
+
 import urls
 from tornado.httpserver import HTTPServer
 from tornado.netutil import bind_sockets
+
 
 from common.log_utils import getLogger
 log = getLogger('main.py')

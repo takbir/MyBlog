@@ -91,9 +91,3 @@ class Tag(BaseORM, BaseModel):
             'id': self.id,
             'name': self.name,
         }
-
-
-__db_connected__ = False
-
-if not __db_connected__:
-    BaseORM.metadata.create_all()

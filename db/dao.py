@@ -2,6 +2,7 @@
 
 from db.models import Blog, Tag, DBSession
 from sqlalchemy import update
+from sqlalchemy.exc import SQLAlchemyError
 
 
 def create_obj(cls=None, **attrs):
@@ -17,7 +18,7 @@ def create_obj(cls=None, **attrs):
     try:
         DBSession.add(obj)
         DBSession.commit()
-    except Exception as exc:
+    except SQLAlchemyError as exc:
         DBSession.rollback()
         raise exc
     return obj

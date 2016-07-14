@@ -21,7 +21,7 @@ try:
     MYSQL_PORT = int(sae.const.MYSQL_PORT)    # 端口，类型为<type 'str'>，请根据框架要求自行转换为int
 except ImportError:
     MYSQL_DBNAME = 'paradas'
-    MYSQL_USER = 'root'
+    MYSQL_USER = 'hanson'
     MYSQL_PASSWD = '123qwe'
     MYSQL_HOST = 'localhost'
     MYSQL_PORT = 3306

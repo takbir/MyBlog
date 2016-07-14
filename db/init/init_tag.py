@@ -18,4 +18,4 @@ def init():
         u'开发者',
         u'时事')
     for name in name_list:
-        dao.create_tag(name=name)
+        dao.create_tag(name=name.encode('utf8'))
