@@ -5,8 +5,6 @@ SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE_PORT = 80
 SITE_DOMAIN = '127.0.0.1'
 
-OS = 'windows'
-
 DEBUG = True
 
 SECRET_KEY = '1f906fb1638ebdb01ade5f1cb55e928f8fe09fcc'
@@ -23,7 +21,7 @@ except ImportError:
     MYSQL_DBNAME = 'paradas'
     MYSQL_USER = 'hanson'
     MYSQL_PASSWD = '123qwe'
-    MYSQL_HOST = 'localhost'
+    MYSQL_HOST = '127.0.0.1'
     MYSQL_PORT = 3306
 
 try:

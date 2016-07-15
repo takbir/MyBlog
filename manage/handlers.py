@@ -44,5 +44,5 @@ class BlogHandler(BaseHandler):
 
 
 url_list = [
-    url(r'/manage/blog/?', BlogHandler),
+    url(r'/manage/blog/?', BlogHandler, name='manage:blog'),
 ]
