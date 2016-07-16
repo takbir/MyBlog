@@ -18,7 +18,7 @@ def render_json(method):
         if not isinstance(output, dict):
             return output
         output.pop('self', '')
-        success_json = {}
+        success_json = {'status': 'success'}
         success_json.update(output)
         self.write(tornado.escape.json_encode(success_json))
     return wrapper

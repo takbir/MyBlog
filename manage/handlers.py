@@ -4,6 +4,7 @@ from manage import util as manage_util
 from base.handlers import BaseHandler
 from utils import decorators
 from tornado.web import url
+from exc import ExcConst, EXC_CONST_TRANSLATION
 
 
 class BlogHandler(BaseHandler):
@@ -27,7 +28,7 @@ class BlogHandler(BaseHandler):
         """
         params = self.get_raw_params()
         blog = manage_util.create_blog(**params)
-        return blog.to_dict()
+        return {'id': blog.id}
 
     @decorators.render_json
     def put(self):
@@ -38,8 +39,10 @@ class BlogHandler(BaseHandler):
         blog_id = params.get('id')
         struct = params.get('struct')
         blog = manage_util.get_one_blog(blog_id)
-        if blog:
-            manage_util.update_blog(blog, **struct)
+        if not blog:
+            return {'status': 'failed',
+                    'msg': EXC_CONST_TRANSLATION.get(ExcConst.BLOG_NOT_FOUND)}
+        manage_util.update_blog(blog, **struct)
         return {}
 
 

@@ -13,4 +13,4 @@ from urls import url_mapping
 
 @pytest.fixture
 def app():
-    return Application(url_mapping)
+    return Application(url_mapping, debug=False)
