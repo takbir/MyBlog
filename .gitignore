@@ -68,3 +68,8 @@ local_settings.py
 
 # virtualenv
 .venv
+venv
+
+# sublime text
+*.sublime*
+
