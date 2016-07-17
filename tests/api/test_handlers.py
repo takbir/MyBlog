@@ -14,7 +14,7 @@ class TestBlogHandler(object):
     def test_get(self, base_url, http_client, monkeypatch, app):
         monkeypatch.setattr('db.dao.get_blog_pagination', mock.Mock(return_value=[]))
         response = yield http_client.fetch('{}{}'.format(
-            base_url, app.reverse_url('manage:blog')))
+            base_url, app.reverse_url('api:blog')))
         assert response.code == 200
         assert is_jsonable(response.body)
 
@@ -29,7 +29,7 @@ class TestBlogHandler(object):
         monkeypatch.setattr('db.dao.create_obj',
                             mock.Mock(return_value=fake_blog))
         response = yield http_client.fetch(
-            '{}{}'.format(base_url, app.reverse_url('manage:blog')),
+            '{}{}'.format(base_url, app.reverse_url('api:blog')),
             method='POST', body=json.dumps(raw_blog))
         assert response.code == 200
         assert is_jsonable(response.body)
@@ -41,7 +41,7 @@ class TestBlogHandler(object):
         monkeypatch.setattr('db.dao.get_one_record', mock.Mock(return_value=True))
         monkeypatch.setattr('db.dao.update_obj', mock.Mock())
         response = yield http_client.fetch(
-            '{}{}'.format(base_url, app.reverse_url('manage:blog')),
+            '{}{}'.format(base_url, app.reverse_url('api:blog')),
             method='PUT', body=json.dumps({'id': '123', 'struct': {}}))
         assert response.code == 200
 
@@ -49,7 +49,7 @@ class TestBlogHandler(object):
     def test_put_with_id_not_found(self, base_url, http_client, monkeypatch, app):
         monkeypatch.setattr('db.dao.get_one_record', mock.Mock(return_value=None))
         response = yield http_client.fetch(
-            '{}{}'.format(base_url, app.reverse_url('manage:blog')),
+            '{}{}'.format(base_url, app.reverse_url('api:blog')),
             method='PUT', body='{"id": 123}')
         assert response.code == 200
         data = json.loads(response.body)
