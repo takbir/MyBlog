@@ -61,7 +61,7 @@ def get_blog_pagination(page_num=1, item_per_page=10):
     page_num = int(page_num)
     item_per_page = int(item_per_page)
     return DBSession.query(Blog).order_by(-Blog.updated).slice(
-        item_per_page, item_per_page * page_num)
+        item_per_page * (page_num - 1), item_per_page * page_num)
 
 
 def update_obj(obj, **attrs):

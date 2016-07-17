@@ -1,5 +1,15 @@
 {% extends '../base/base_with_navbar.html' %}
 
 {% block container %}
-    <p>hello world!</p>
+    <p ng-controller="blogCtrl" id="blogP">
+    111111
+        <div class="row" ng-repeat="blog in blogs">
+            ${blog.title}
+        </div>
+    </p>
+{% end %}
+
+{% block javascript %}
+<script src="/static/build/vendor/vendor.bundle.js"></script>
+<script src="/static/build/index/index.bundle.js"></script>
 {% end %}

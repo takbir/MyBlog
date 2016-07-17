@@ -73,3 +73,6 @@ venv
 # sublime text
 *.sublime*
 
+# npm
+static/node_modules
+
